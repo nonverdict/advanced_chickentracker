@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru"> <!-- Default to dark, JS can change -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Januya - Мониторинг</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,500&family=Dancing+Script:wght@400;700&family=Georgia&family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=Lobster&family=Lora:ital@0;1&family=Merriweather:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Oswald:wght@400;500;600;700&family=PT+Serif:wght@400;700&family=Pacifico&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;500;600;700&family=Righteous&family=Roboto+Slab:wght@400;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="overlay-backdrop" class="overlay-backdrop"></div>
+
+    <div class="app-container">
+        <nav class="bottom-nav">
+            <button class="nav-button" data-tab="camera-pane"><span class="icon">📷</span><span class="label">Камеры</span></button>
+            <button class="nav-button active" data-tab="home-pane"><span class="icon">🏠</span><span class="label">Главная</span></button>
+            <button class="nav-button" data-tab="info-pane"><span class="icon">❓</span><span class="label">Инфо</span></button>
+        </nav>
+
+        <div class="content-area">
+            <div id="home-pane" class="tab-pane active">
+                <header class="page-header home-header">
+                    <h1 class="app-title animatable-on-tab-load">Januya</h1>
+                </header>
+                <section class="page-content home-content">
+                    <p class="project-description animatable-on-tab-load">
+                        Умный мониторинг здоровья для вашей птицефермы.
+                        <br>(Smart health monitoring for your poultry farm.)
+                    </p>
+                    <div class="placeholder-box animatable-on-tab-load">
+                        Краткая сводка: все системы в норме.
+                    </div>
+                    <div class="home-icon-slogan-area animatable-on-tab-load">
+                        <svg class="chicken-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                          <ellipse fill="#FFC107" cx="50" cy="55" rx="35" ry="30"/>
+                          <circle fill="#FFC107" cx="50" cy="35" r="20"/>
+                          <circle fill="#222" cx="58" cy="32" r="3"/>
+                          <path fill="#FF5722" d="M45 18 Q 48 12, 52 18 T 60 18 Q 55 25, 50 28 Q 45 25, 45 18 Z"/>
+                          <polygon fill="#FF9800" points="65,35 70,38 65,41"/>
+                          <ellipse fill="#FF5722" cx="62" cy="46" rx="4" ry="6" transform="rotate(15 62 46)"/>
+                        </svg>
+                        <p class="slogan">Januya - It's about care.</p>
+                    </div>
+                </section>
+            </div>
+
+            <div id="camera-pane" class="tab-pane">
+                 <header class="page-header animatable-on-tab-load">
+                    <h2><span class="icon">📷</span>Камеры</h2>
+                 </header>
+                 <section class="page-content camera-feeds-container">
+                    <div class="camera-feed animatable-on-tab-load">
+                        <h3>Тепловизор (Симуляция)</h3>
+                        <div id="thermal-feed" class="feed-placeholder">Тепловизор - Нет Симуляции</div>
+                    </div>
+                    <div class="camera-feed animatable-on-tab-load">
+                        <div class="feed-header">
+                            <h3>Камера / Видео</h3>
+                            <button id="toggle-feed-btn" class="feed-toggle-button">Показать Видео</button>
+                        </div>
+                        <img id="normal-feed-img" class="feed-placeholder" alt="Загрузка потока..." width="100%">
+                    </div>
+                </section>
+            </div>
+
+            <div id="info-pane" class="tab-pane">
+                <header class="page-header animatable-on-tab-load">
+                    <h2><span class="icon">❓</span>Информация</h2>
+                    <div class="header-actions">
+                        <button id="theme-toggle-btn" class="icon-button theme-toggle" aria-label="Переключить тему">
+                            <span class="theme-icon-light">☀️</span>
+                            <span class="theme-icon-dark">🌙</span>
+                        </button>
+                        <button id="reports-bell" class="icon-button">
+                            <span class="icon-content">🔔</span>
+                        </button>
+                    </div>
+                </header>
+                <section class="page-content">
+                    <div id="disease-section" class="animatable-on-tab-load">
+                        <h3 class="section-title">Болезни Кур</h3>
+                        <ul id="disease-list" class="info-list">
+                            <li class="disease-item" data-disease-id="coccidiosis">Кокцидиоз</li>
+                            <li class="disease-item" data-disease-id="mareks">Болезнь Марека</li>
+                            <li class="disease-item" data-disease-id="newcastle">Болезнь Ньюкасла</li>
+                            <li class="disease-item" data-disease-id="pullorosis">Пуллороз</li>
+                            <li class="disease-item" data-disease-id="pasteurellosis">Пастереллёз</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+
+            <div id="disease-details" class="details-overlay">
+                <div class="details-overlay-header">
+                    <button class="icon-button back-button close-overlay-btn" aria-label="Назад">←</button>
+                    <h4 id="disease-detail-title">Название Болезни</h4>
+                    <button class="icon-button close-button close-overlay-btn" aria-label="Закрыть">✖</button>
+                </div>
+                <div class="details-content-wrapper" id="disease-detail-content">
+                    <p><strong>Симптомы:</strong> <span id="disease-symptoms">...</span></p>
+                    <p><strong>Лечение:</strong> <span id="disease-cure">...</span></p>
+                    <p><strong>Профилактика:</strong> <span id="disease-prevention">...</span></p>
+                </div>
+            </div>
+
+            <div id="reports-list" class="details-overlay">
+                <div class="details-overlay-header">
+                    <h4 style="flex-grow:1;"><span class="icon">📄</span>Последние Отчеты</h4>
+                    <button class="icon-button close-button close-overlay-btn" aria-label="Закрыть">✖</button>
+                </div>
+                <div class="details-content-wrapper" id="reports-content">
+                    <p style="text-align:center; padding: 20px; color: var(--text-placeholder);">Нет доступных отчетов.</p>
+                </div>
+            </div>
+
+            <!-- DEV MODE OVERLAY -->
+            <div id="dev-mode-overlay" class="details-overlay dev-overlay">
+                <div class="details-overlay-header">
+                    <h4 style="flex-grow:1;"><span class="icon">🛠️</span>Dev Panel</h4>
+                    <button class="icon-button close-button close-overlay-btn" aria-label="Закрыть">✖</button>
+                </div>
+                <div class="details-content-wrapper" id="dev-mode-content">
+                    <div class="dev-section">
+                        <h5 class="dev-section-title">Color Customization</h5>
+                        <div class="dev-control-group">
+                            <h6 class="dev-control-group-title">Sidebar</h6>
+                            <div class="dev-control">
+                                <label for="sidebar-gradient-start">Gradient Start</label>
+                                <input type="color" id="sidebar-gradient-start" value="#e8f5e9">
+                            </div>
+                            <div class="dev-control">
+                                <label for="sidebar-gradient-end">Gradient End</label>
+                                <input type="color" id="sidebar-gradient-end" value="#dcedc8">
+                            </div>
+                        </div>
+                        <div class="dev-control-group">
+                            <h6 class="dev-control-group-title">Januya Title</h6>
+                            <div class="dev-control">
+                                <label for="januya-gradient-start">Gradient Start</label>
+                                <input type="color" id="januya-gradient-start" value="#F59E0B">
+                            </div>
+                            <div class="dev-control">
+                                <label for="januya-gradient-end">Gradient End</label>
+                                <input type="color" id="januya-gradient-end" value="#689f38">
+                            </div>
+                        </div>
+                         <div class="dev-control-group">
+                            <h6 class="dev-control-group-title">General</h6>
+                             <div class="dev-control">
+                                <label for="element-bg-color">Element Background</label>
+                                <input type="color" id="element-bg-color" value="#e8f5e9">
+                            </div>
+                             <div class="dev-control">
+                                <label for="header-bg-color">Header Background (Glass)</label>
+                                <input type="color" id="header-bg-color" value="#e8f5e9">
+                            </div>
+                            <div class="dev-control">
+                                <label for="accent-primary-color">Primary Accent</label>
+                                <input type="color" id="accent-primary-color" value="#F59E0B">
+                            </div>
+                            <div class="dev-control">
+                                <label for="accent-secondary-color">Secondary Accent</label>
+                                <input type="color" id="accent-secondary-color" value="#689f38">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dev-section">
+                        <h5 class="dev-section-title">Font Customization</h5>
+                        <div class="dev-control">
+                            <label for="font-primary-select">UI Font (Buttons, Labels)</label>
+                            <select id="font-primary-select">
+                                <option value="'Poppins', sans-serif">Poppins</option>
+                                <option value="'Inter', sans-serif">Inter</option>
+                                <option value="'Lato', sans-serif">Lato</option>
+                                <option value="'Open Sans', sans-serif">Open Sans</option>
+                                <option value="'Montserrat', sans-serif">Montserrat</option>
+                                <option value="'Roboto Slab', serif">Roboto Slab</option>
+                            </select>
+                        </div>
+                        <div class="dev-control">
+                            <label for="font-display-select">Display Font (Title)</label>
+                            <select id="font-display-select">
+                                <option value="'Righteous', cursive">Righteous</option>
+                                <option value="'Lobster', cursive">Lobster</option>
+                                <option value="'Playfair Display', serif">Playfair Display</option>
+                                <option value="'Pacifico', cursive">Pacifico</option>
+                                <option value="'Oswald', sans-serif">Oswald</option>
+                                <option value="'Bebas Neue', cursive">Bebas Neue</option>
+                                <option value="'Anton', sans-serif">Anton</option>
+                                <option value="'Dancing Script', cursive">Dancing Script</option>
+                                <option value="'Shadows Into Light', cursive">Shadows Into Light</option>
+                            </select>
+                        </div>
+                        <div class="dev-control">
+                            <label for="font-accent-select">Accent Font (Descriptions)</label>
+                            <select id="font-accent-select">
+                                <option value="'Georgia', serif">Georgia</option>
+                                <option value="'Lora', serif">Lora</option>
+                                <option value="'Merriweather', serif">Merriweather</option>
+                                <option value="'PT Serif', serif">PT Serif</option>
+                                <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dev-section-footer">
+                        <button id="save-theme-btn" class="dev-button">Save to File</button>
+                        <button id="reset-theme-btn" class="dev-button reset">Reset to Defaults</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
